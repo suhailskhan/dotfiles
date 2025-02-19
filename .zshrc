@@ -1,6 +1,6 @@
 FPATH="$HOMEBREW_PREFIX/share/zsh/site-functions:/opt/local/share/zsh/site-functions:${FPATH}"
 
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # Remove older command from the history if a duplicate is to be added.
 setopt HIST_IGNORE_ALL_DUPS
