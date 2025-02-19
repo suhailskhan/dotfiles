@@ -1,7 +1,7 @@
 # dotfiles
 
 ## Setup
-`curl -Lks https://gist.githubusercontent.com/suhailskhan/6016ca1b3fabd67d22194f1bb0191218/raw/dotfiles-restore.sh | /bin/bash`
+    curl -Lks https://gist.githubusercontent.com/suhailskhan/6016ca1b3fabd67d22194f1bb0191218/raw/dotfiles-restore.sh | /bin/bash
 
 ## Credits
 
