@@ -24,6 +24,8 @@ fi
 # Initialize modules.
 source ${ZIM_HOME}/init.zsh
 
+export HOMEBREW_NO_ENV_HINTS=1
+
 if [[ -n $SSH_CONNECTION ]]; then
 	export EDITOR='nano' VISUAL='nano'
 else
@@ -33,16 +35,22 @@ fi
 # pipx
 eval "$(register-python-argcomplete-3.13 pipx)"
 
-# For iTerm
+# iTerm Shell Integration
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # For powerlevel10k
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# pyenv
-# source $HOME/.pyenv_hook
-
-#direnv
+# direnv
 eval "$(direnv hook zsh)"
 
-export HOMEBREW_NO_ENV_HINTS=1
+#
+# Keep at the end:
+#
+
+# AWS CLI
+autoload bashcompinit && bashcompinit
+complete -C '/usr/local/bin/aws_completer' aws
+
+# pyenv
+# source $HOME/.pyenv_hook
