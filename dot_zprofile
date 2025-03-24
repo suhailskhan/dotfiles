@@ -22,6 +22,15 @@ alias ghweb='gh repo view --web'
 # Create folder in ~/Developer, initialize a Git repo, and optionally create a GitHub
 # repository
 mkrepo() {
+  usage() {
+    cat <<EOF
+Usage: mkrepo [--github | --github-public] <folder_name>
+
+Create folder in ~/Developer, initialize a Git repo, and optionally create a GitHub repository.
+
+EOF
+  }
+
   local github_private=false
   local github_public=false
   local folder_name=""
@@ -35,35 +44,47 @@ mkrepo() {
       --github-public)
         github_public=true
         ;;
+      -*)
+        echo "mkrepo: error: unrecognized option: $arg" >&2
+        echo
+        usage
+        return 64
+        ;;
       *)
         folder_name="$arg"
         ;;
     esac
   done
-  
+
   if [ -z "$folder_name" ]; then
-    echo "Usage: mkrepo [--github | --github-public] <folder_name>"
-    return 1
+    echo "mkrepo: error: missing folder name" >&2
+    echo
+    usage
+    return 64
   fi
   
   if $github_private && $github_public; then
-    echo "Error: Cannot specify both --github and --github-public."
+    echo "mkrepo: error: too many arguments" >&2
+    echo
+    usage
     return 1
   fi
   
   local target="$HOME/Developer/$folder_name"
+  if [ -d "$target" ]; then
+    echo "mkrepo: error: directory $target already exists" >&2
+    return 1
+  fi
   
   # Create the directory, change into it, and initialize a git repository.
-  mkdir -p "$target" || { echo "Error creating directory $target"; return 1; }
-  cd "$target" || { echo "Error changing directory to $target"; return 1; }
+  mkdir -p "$target" || { code=$?; return $code; }
+  cd "$target" || { code=$?; return $code; }
   git init
   
   # Optionally, create a GitHub repo.
   if $github_public; then
-    gh repo create --public --source "$target"
+    gh repo create --public --source "$target" || { code=$?; return $code; }
   elif $github_private; then
-    gh repo create --private --source "$target"
+    gh repo create --private --source "$target" || { code=$?; return $code; }
   fi
-  
-  echo "Repository initialized in $target"
 }
