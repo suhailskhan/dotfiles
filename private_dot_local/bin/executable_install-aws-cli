@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+# Try to get latest available version
+LATEST_VERSION=$(curl -s --connect-timeout 5 https://raw.githubusercontent.com/aws/aws-cli/v2/CHANGELOG.rst | grep -m 1 -o "[0-9]\+\.[0-9]\+\.[0-9]\+" | head -1)
+
+# Check if we successfully retrieved the version
+if [ -z "$LATEST_VERSION" ]; then
+    echo "Error: Failed to check latest AWS CLI version."
+    exit 1
+fi
+
+# Check if AWS CLI is installed
+if command -v aws &> /dev/null; then
+    # Get current installed version
+    INSTALLED_VERSION=$(aws --version 2>&1 | cut -d'/' -f2 | cut -d' ' -f1)
+    echo "Installed AWS CLI version: $INSTALLED_VERSION"
+    echo "Latest AWS CLI version: $LATEST_VERSION"
+
+    # Compare versions
+    if [ "$INSTALLED_VERSION" = "$LATEST_VERSION" ]; then
+        echo "AWS CLI is already up to date."
+        exit 0
+    fi
+else
+    echo "AWS CLI is not installed."
+    INSTALLED_VERSION="not_installed"
+fi
+
+# Define a temporary directory
+TEMP_DIR=$(mktemp -d)
+trap 'rm -rf -- "$TEMP_DIR"' EXIT
+PKG_FILE="$TEMP_DIR/AWSCLIV2.pkg"
+
+# Download the latest AWS CLI package
+echo "Downloading AWS CLI version $LATEST_VERSION..."
+curl -s "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "$PKG_FILE" || {
+    echo "Error: Failed to download AWS CLI package."
+    exit 1
+}
+
+# Check if the downloaded file is valid
+if [ ! -s "$PKG_FILE" ]; then
+    echo "Error: Downloaded AWS CLI package is empty or invalid."
+    exit 1
+fi
+
+# Install the package
+echo "Installing AWS CLI version $LATEST_VERSION..."
+sudo installer -pkg "$PKG_FILE" -target /
+
+if [ "$INSTALLED_VERSION" = "not_installed" ]; then
+    echo "AWS CLI version $LATEST_VERSION has been installed."
+else
+    echo "AWS CLI updated from version $INSTALLED_VERSION to $LATEST_VERSION."
+fi

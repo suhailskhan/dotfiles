@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Define the file and the line to toggle
+FILE="$HOME/.zshrc"
+LINE="source \$HOME/.pyenv_hook"
+
+# Escape special characters for sed
+ESCAPED_LINE=$(echo "$LINE" | sed 's/[\/&]/\\&/g')
+
+# Check if the line exists and is commented
+if grep -q "^#.*$ESCAPED_LINE" "$FILE"; then
+    # Line is commented, uncomment it
+    sed -i "" "s/^#.*$ESCAPED_LINE/$ESCAPED_LINE/" "$FILE"
+    echo "Line uncommented."
+elif grep -q "^$ESCAPED_LINE" "$FILE"; then
+    # Line is not commented, comment it
+    sed -i "" "s/^$ESCAPED_LINE/# $ESCAPED_LINE/" "$FILE"
+    echo "Line commented."
+else
+    # Line does not exist, add it commented
+    echo "# $ESCAPED_LINE" >> "$FILE"
+    echo "Line added and commented."
+fi

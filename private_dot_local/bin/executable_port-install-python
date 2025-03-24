@@ -1,0 +1,99 @@
+#!/usr/bin/env zsh
+
+script_name=${0:t}
+
+usage() {
+  cat <<EOF
+Usage: $script_name [OPTIONS] PYTHON_VERSION
+
+Install and configure Python and pip using MacPorts.
+
+Options:
+  -u, --universal    Build Python with universal binary support
+  
+Arguments:
+  PYTHON_VERSION     Three-digit version number (e.g., 311, 312, 313)
+
+EOF
+  exit 1
+}
+
+validate_python_version() {
+  local version=$1
+  # Check if version is exactly 3 digits and starts with 3
+  if [[ "$version" =~ ^3[0-9]{2}$ ]]; then
+    return 0
+  else
+    echo "Error: Invalid Python version format. Must be 3 digits (e.g., 311, 312, 313)"
+    return 1
+  fi
+}
+
+if [[ $# -eq 0 ]]; then
+  usage
+fi
+
+universal_flag=""
+python_version=""
+
+while [[ $# -gt 0 ]]; do
+  key="$1"
+  case $key in
+    -u|--universal)
+      universal_flag="+universal"
+      shift
+      ;;
+    *)
+      if [[ -n "$python_version" ]]; then
+        echo "Error: Multiple Python versions specified"
+        usage
+      fi
+      python_version="$1"
+      shift
+      ;;
+  esac
+done
+
+if [[ -z $python_version ]]; then
+  usage
+fi
+
+# Validate Python version
+if ! validate_python_version "$python_version"; then
+  exit 1
+fi
+
+py_pip_version="py${python_version}-pip"
+py_pip_select_version="pip${python_version}"
+
+echo "Installing Python and pip for python${python_version}..."
+if ! sudo port install python${python_version} ${universal_flag} ${py_pip_version}; then
+  echo "Error: Failed to install Python and pip"
+  exit 1
+fi
+
+echo "Setting python${python_version} as the default..."
+if ! sudo port select --set python python${python_version}; then
+  echo "Error: Failed to set python${python_version} as default python"
+  exit 1
+fi
+
+if ! sudo port select --set python3 python${python_version}; then
+  echo "Error: Failed to set python${python_version} as default python3"
+  exit 1
+fi
+
+echo "Setting ${py_pip_select_version} as the default..."
+if ! sudo port select --set pip ${py_pip_select_version}; then
+  echo "Error: Failed to set ${py_pip_select_version} as default pip"
+  exit 1
+fi
+
+if ! sudo port select --set pip3 ${py_pip_select_version}; then
+  echo "Error: Failed to set ${py_pip_select_version} as default pip3"
+  exit 1
+fi
+
+echo "\nSetup complete for python${python_version} with ${py_pip_select_version}.\n"
+echo "To undo, run:"
+echo "sudo port uninstall python${python_version} ${py_pip_version}"

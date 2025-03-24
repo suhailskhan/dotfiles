@@ -1,0 +1,6 @@
+#/usr/bin/env zsh
+
+python -m venv venv
+echo "export VIRTUAL_ENV=venv\n\
+layout python" >> .envrc
+direnv allow
