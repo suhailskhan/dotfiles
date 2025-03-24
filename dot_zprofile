@@ -13,5 +13,8 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # This won't be added again if you remove it.
 source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
-# Shorthand command to run Universal binaries using Rosetta
+# Run Universal binaries using Rosetta
 alias rosetta='arch -x86_64'
+
+# Quickly open Git repository on GitHub.com
+alias ghweb='gh repo view --web'
