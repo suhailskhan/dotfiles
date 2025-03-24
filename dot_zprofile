@@ -18,3 +18,52 @@ alias rosetta='arch -x86_64'
 
 # Quickly open Git repository on GitHub.com
 alias ghweb='gh repo view --web'
+
+# Create folder in ~/Developer, initialize a Git repo, and optionally create a GitHub
+# repository
+mkrepo() {
+  local github_private=false
+  local github_public=false
+  local folder_name=""
+  
+  # Process arguments
+  for arg in "$@"; do
+    case "$arg" in
+      --github)
+        github_private=true
+        ;;
+      --github-public)
+        github_public=true
+        ;;
+      *)
+        folder_name="$arg"
+        ;;
+    esac
+  done
+  
+  if [ -z "$folder_name" ]; then
+    echo "Usage: mkrepo [--github | --github-public] <folder_name>"
+    return 1
+  fi
+  
+  if $github_private && $github_public; then
+    echo "Error: Cannot specify both --github and --github-public."
+    return 1
+  fi
+  
+  local target="$HOME/Developer/$folder_name"
+  
+  # Create the directory, change into it, and initialize a git repository.
+  mkdir -p "$target" || { echo "Error creating directory $target"; return 1; }
+  cd "$target" || { echo "Error changing directory to $target"; return 1; }
+  git init
+  
+  # Optionally, create a GitHub repo.
+  if $github_public; then
+    gh repo create --public --source "$target"
+  elif $github_private; then
+    gh repo create --private --source "$target"
+  fi
+  
+  echo "Repository initialized in $target"
+}
