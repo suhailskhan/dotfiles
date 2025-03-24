@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# mkrepo: Create a new repository in ~/Developer, initialize a Git repo,
+# and optionally create a GitHub repository.
+#
+# Usage:
+#   mkrepo [--github | --github-public] <folder_name>
+
+github_private=false
+github_public=false
+folder_name=""
+
+# Process arguments
+for arg in "$@"; do
+  case "$arg" in
+    --github)
+      github_private=true
+      ;;
+    --github-public)
+      github_public=true
+      ;;
+    *)
+      folder_name="$arg"
+      ;;
+  esac
+done
+
+if [ -z "$folder_name" ]; then
+  echo "Usage: mkrepo [--github | --github-public] <folder_name>"
+  exit 1
+fi
+
+if $github_private && $github_public; then
+  echo "Error: Cannot specify both --github and --github-public."
+  exit 1
+fi
+
+target="$HOME/Developer/$folder_name"
+
+# Create the directory, change into it, and initialize a git repository.
+mkdir -p "$target" || { echo "Error creating directory $target"; exit 1; }
+cd "$target" || { echo "Error changing directory to $target"; exit 1; }
+git init
+
+# Optionally, create a GitHub repo.
+if $github_public; then
+  gh repo create --public --source "$target"
+elif $github_private; then
+  gh repo create --private --source "$target"
+fi
+
+echo "Repository initialized in $target"
