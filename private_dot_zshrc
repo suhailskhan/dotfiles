@@ -1,4 +1,5 @@
-FPATH="$HOMEBREW_PREFIX/share/zsh/site-functions:/opt/local/share/zsh/site-functions:${FPATH}"
+# Add zsh completions from ~/.local to FPATH
+FPATH="$HOME/.local/share/zsh/site-functions:${FPATH}"
 
 # Remove older command from the history if a duplicate is to be added.
 setopt HIST_IGNORE_ALL_DUPS
