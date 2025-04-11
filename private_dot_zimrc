@@ -24,6 +24,7 @@ zmodule suhailskhan/ps1
 
 # Additional completion definitions for Zsh.
 zmodule zsh-users/zsh-completions --fpath src
+zmodule conda-incubator/conda-zsh-completion
 # Enables and configures smart and extensive tab completion.
 # completion must be sourced after all modules that add completion definitions.
 zmodule completion
