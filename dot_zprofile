@@ -91,3 +91,7 @@ EOF
         gh repo create --private --source "$target" || { code=$?; return $code; }
     fi
 }
+
+# Prefer certain built-in programs
+alias curl='/usr/bin/curl'
+alias sqlite3='/usr/bin/sqlite3'
