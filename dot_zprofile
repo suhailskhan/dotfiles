@@ -1,17 +1,15 @@
-# Set FPATH for ~/.local
-export FPATH="$HOME/.local/share/zsh/site-functions:$FPATH"
-
 # Set PATH, MANPATH, etc., for Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# Set PATH for MacPorts
+# Set PATH, MANPATH, and FPATH for MacPorts
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
-
-# Set MANPATH for MacPorts
 export MANPATH="/opt/local/share/man:$MANPATH"
-
-# Set FPATH for MacPorts
 export FPATH="/opt/local/share/zsh/site-functions:$FPATH"
+
+# Set PATH, MANPATH, and FPATH for ~/.local
+export PATH="$HOME/.local/bin:$PATH"
+export MANPATH="$HOME/.local/share/man:$MANPATH"
+export FPATH="$HOME/.local/share/zsh/site-functions:$FPATH"
 
 # OrbStack command-line tools and integration
 source ~/.orbstack/shell/init.zsh 2>/dev/null || :
