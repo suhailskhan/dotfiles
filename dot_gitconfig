@@ -22,3 +22,5 @@
     trustExitCode = true
 [includeIf "gitdir/i:~/Developer/GitLab/"]
     path=.gitconfig-gitlab
+[includeIf "gitdir/i:~/Developer/Work/"]
+    path=.gitconfig-work
