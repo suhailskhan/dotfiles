@@ -25,9 +25,9 @@ alias ghweb='gh repo view --web'
 mkrepo() {
     usage() {
         cat <<EOF
-Usage: mkrepo [--github | --github-public] <folder_name>
+Usage: mkrepo [--github | --github-public] [--dir <directory>] <folder_name>
 
-Create folder in ~/Developer, initialize a Git repo, and optionally create a GitHub repository.
+Create folder in the specified directory (default: ~/Developer), initialize a Git repo, and optionally create a GitHub repository.
 
 EOF
     }
@@ -35,24 +35,38 @@ EOF
     local github_private=false
     local github_public=false
     local folder_name=""
+    local base_dir="$HOME/Developer"
     
     # Process arguments
-    for arg in "$@"; do
-        case "$arg" in
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
             --github)
                 github_private=true
+                shift
                 ;;
             --github-public)
                 github_public=true
+                shift
+                ;;
+            --dir)
+                if [[ -z "$2" || "$2" == -* ]]; then
+                    echo "mkrepo: error: option --dir requires an argument" >&2
+                    echo
+                    usage
+                    return 64
+                fi
+                base_dir="$2"
+                shift 2
                 ;;
             -*)
-                echo "mkrepo: error: unrecognized option: $arg" >&2
+                echo "mkrepo: error: unrecognized option: $1" >&2
                 echo
                 usage
                 return 64
                 ;;
             *)
-                folder_name="$arg"
+                folder_name="$1"
+                shift
                 ;;
         esac
     done
@@ -65,27 +79,31 @@ EOF
     fi
     
     if $github_private && $github_public; then
-        echo "mkrepo: error: too many arguments" >&2
+        echo "mkrepo: error: cannot specify both --github and --github-public" >&2
         echo
         usage
         return 1
     fi
     
-    local target="$HOME/Developer/$folder_name"
+    local target="$base_dir/$folder_name"
     if [ -d "$target" ]; then
         echo "mkrepo: error: directory $target already exists" >&2
         return 1
     fi
     
-    # Create the directory, change into it, and initialize a git repository.
+    # Create the directory, change into it, and initialize a git repository
     mkdir -p "$target" || { code=$?; return $code; }
     cd "$target" || { code=$?; return $code; }
     git init
     
-    # Optionally, create a GitHub repo.
+    # Optionally, create a GitHub repo
+    if $github_private || $github_public; then
+        local gh_identity=$GH_CONFIG_DIR
+        GH_CONFIG_DIR=$gh_identity gh auth switch
+    fi
     if $github_public; then
-        gh repo create --public --source "$target" || { code=$?; return $code; }
+        gh repo create --public --source=. || { code=$?; return $code; }
     elif $github_private; then
-        gh repo create --private --source "$target" || { code=$?; return $code; }
+        gh repo create --private --source=. || { code=$?; return $code; }
     fi
 }
