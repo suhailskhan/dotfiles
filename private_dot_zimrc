@@ -36,5 +36,8 @@ zmodule completion
 # Fish-like history search (up arrow) for Zsh.
 # zmodule zsh-users/zsh-history-substring-search
 
+# Git aliases like gcl etc
 zmodule ohmyzsh/ohmyzsh --root plugins/git --use degit
-zmodule ohmyzsh/ohmyzsh --root lib --source key-bindings.zsh --use degit
+
+# Makes atuin and keybindings work
+zmodule atuinsh/atuin
