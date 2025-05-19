@@ -36,7 +36,7 @@ EOF
     local github_public=false
     local folder_name=""
     local base_dir="$HOME/Developer"
-    
+
     # Process arguments
     while [[ $# -gt 0 ]]; do
         case "$1" in
@@ -77,33 +77,34 @@ EOF
         usage
         return 64
     fi
-    
+
     if $github_private && $github_public; then
         echo "mkrepo: error: cannot specify both --github and --github-public" >&2
         echo
         usage
         return 1
     fi
-    
+
     local target="$base_dir/$folder_name"
     if [ -d "$target" ]; then
         echo "mkrepo: error: directory $target already exists" >&2
         return 1
     fi
-    
-    # Create the directory, change into it, and initialize a git repository
+
+    # Create the directory, change into it, and initialize a Git repository
     mkdir -p "$target" || { code=$?; return $code; }
     cd "$target" || { code=$?; return $code; }
     git init
-    
+
     # Optionally, create a GitHub repo
     if $github_private || $github_public; then
         local gh_identity=$GH_CONFIG_DIR
         GH_CONFIG_DIR=$gh_identity gh auth switch
-    fi
-    if $github_public; then
-        gh repo create --public --source=. || { code=$?; return $code; }
-    elif $github_private; then
-        gh repo create --private --source=. || { code=$?; return $code; }
+
+        # Use parameter expansion to determine visibility
+        local visibility="${github_public:+public}"
+        visibility="${visibility:-private}"
+
+        gh repo create --"$visibility" --source=. || { code=$?; return $code; }
     fi
 }
