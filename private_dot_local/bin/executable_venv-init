@@ -2,5 +2,6 @@
 
 python -m venv venv
 echo "export VIRTUAL_ENV=venv\n\
-layout python" >> .envrc
+layout python" > .envrc
 direnv allow
+venv/bin/pip install --upgrade pip
