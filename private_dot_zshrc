@@ -30,6 +30,8 @@ else
 	export EDITOR='bbedit --wait' VISUAL='bbedit --wait'
 fi
 
+eval "$(gh copilot alias -- zsh)"
+
 # pipx
 eval "$(register-python-argcomplete-3.13 pipx)"
 
