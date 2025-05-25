@@ -5,3 +5,4 @@ echo "export VIRTUAL_ENV=venv\n\
 layout python" > .envrc
 direnv allow
 venv/bin/pip install --upgrade pip
+venv/bin/pip install pip-tools
