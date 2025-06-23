@@ -101,9 +101,11 @@ EOF
         local gh_identity=$GH_CONFIG_DIR
         GH_CONFIG_DIR=$gh_identity gh auth switch
 
-        # Use parameter expansion to determine visibility
-        local visibility="${github_public:+public}"
-        visibility="${visibility:-private}"
+        # Determine visibility based on flags
+        local visibility="private"
+        if $github_public; then
+            visibility="public"
+        fi
 
         gh repo create --"$visibility" --source=. || { code=$?; return $code; }
     fi
