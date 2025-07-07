@@ -41,3 +41,6 @@ zmodule ohmyzsh/ohmyzsh --root plugins/git --use degit
 
 # Makes atuin and keybindings work
 zmodule atuinsh/atuin
+
+# Open Git repository pages in browser
+zmodule paulirish/git-open
