@@ -17,6 +17,10 @@ source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 # Run Universal binaries using Rosetta
 alias rosetta='arch -x86_64'
 
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
 # Create folder in ~/Developer, initialize a Git repo, and optionally create a GitHub
 # repository
 mkrepo() {
