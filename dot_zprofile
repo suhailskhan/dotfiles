@@ -14,9 +14,6 @@ export FPATH="$HOME/.local/share/zsh/site-functions:$FPATH"
 # OrbStack command-line tools and integration
 source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
-# Run Universal binaries using Rosetta
-alias rosetta='arch -x86_64'
-
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"

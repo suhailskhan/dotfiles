@@ -30,6 +30,9 @@ else
 	export EDITOR='bbedit --wait' VISUAL='bbedit --wait'
 fi
 
+# Run Universal binaries using Rosetta
+alias rosetta='arch -x86_64'
+
 eval "$(gh copilot alias -- zsh)"
 
 # pipx
