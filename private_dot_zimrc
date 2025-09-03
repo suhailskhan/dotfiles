@@ -48,3 +48,6 @@ zmodule paulirish/git-open
 # Create folder in ~/Developer, initialize a Git repo, and optionally create a GitHub
 # repository
 zmodule suhailskhan/mkrepo
+
+# View Safari browsing history from the command line
+zmodule suhailskhan/zim-safari-history
