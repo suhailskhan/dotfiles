@@ -35,6 +35,10 @@ alias rosetta='arch -x86_64'
 
 eval "$(gh copilot alias -- zsh)"
 
+mkcd() {
+    mkdir -p "$1" && cd "$1"
+}
+
 # pipx
 eval "$(register-python-argcomplete-3.13 pipx)"
 
