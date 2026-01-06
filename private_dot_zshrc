@@ -40,7 +40,7 @@ mkcd() {
 }
 
 # pipx
-eval "$(register-python-argcomplete-3.13 pipx)"
+eval "$(register-python-argcomplete-3.14 pipx)"
 
 # iTerm Shell Integration
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
