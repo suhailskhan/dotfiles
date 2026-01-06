@@ -62,6 +62,7 @@ complete -C '/usr/local/bin/aws_completer' aws
 # OpenTofu/Terraform
 complete -o nospace -C /opt/local/bin/terraform terraform
 complete -o nospace -C /opt/local/bin/tofu tofu
+complete -o nospace -C /opt/local/bin/terragrunt terragrunt
 
 # pyenv
 # source $HOME/.pyenv_hook
