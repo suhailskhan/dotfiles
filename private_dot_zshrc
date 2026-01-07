@@ -33,8 +33,6 @@ fi
 # Run Universal binaries using Rosetta
 alias rosetta='arch -x86_64'
 
-eval "$(gh copilot alias -- zsh)"
-
 mkcd() {
     mkdir -p "$1" && cd "$1"
 }
