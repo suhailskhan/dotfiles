@@ -11,9 +11,6 @@ export PATH="$HOME/.local/bin:$PATH"
 export MANPATH="$HOME/.local/share/man:$MANPATH"
 export FPATH="$HOME/.local/share/zsh/site-functions:$FPATH"
 
-# OrbStack command-line tools and integration
-source ~/.orbstack/shell/init.zsh 2>/dev/null || :
-
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"

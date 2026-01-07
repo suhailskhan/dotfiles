@@ -61,6 +61,9 @@ complete -o nospace -C /opt/local/bin/terraform terraform
 complete -o nospace -C /opt/local/bin/tofu tofu
 complete -o nospace -C /opt/local/bin/terragrunt terragrunt
 
+# OrbStack command-line tools and integration
+source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+
 # pipx completions
 eval "$(register-python-argcomplete-3.14 pipx)"
 
