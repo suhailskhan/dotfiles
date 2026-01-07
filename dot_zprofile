@@ -1,16 +1,47 @@
-# Set PATH, MANPATH, etc., for Homebrew
+# Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# Set PATH, MANPATH, and FPATH for MacPorts
+# MacPorts
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 export MANPATH="/opt/local/share/man:$MANPATH"
 export FPATH="/opt/local/share/zsh/site-functions:$FPATH"
 
-# Set PATH, MANPATH, and FPATH for ~/.local
+# ~/.local
 export PATH="$HOME/.local/bin:$PATH"
 export MANPATH="$HOME/.local/share/man:$MANPATH"
 export FPATH="$HOME/.local/share/zsh/site-functions:$FPATH"
 
+# Android SDK
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools
+
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Go
+export PATH=$PATH:$HOME/go/bin
+
+# LM Studio
+export PATH="$PATH:$HOME/.cache/lm-studio/bin"
+
+# n (Node manager)
+export N_PREFIX=$HOME/.local
+
+# Perl
+export PATH=$PATH:$HOME/perl5/bin
+
+# pip binaries
+export PATH=$PATH:$HOME/Library/Python/*/bin
+
+# Python (Homebrew)
+# export PATH=$HOMEBREW_PREFIX/opt/python/libexec/bin:$PATH
+
+# Ruby
+for dir in "$HOME/.local/share/gem/ruby"/*/bin; do
+  [ -d "$dir" ] && PATH="$dir:$PATH"
+done
+export PATH
+
+# Rust/Cargo
+. "$HOME/.cargo/env"
