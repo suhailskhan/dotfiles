@@ -1,5 +1,7 @@
 # Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
+## Python
+export PATH=$HOMEBREW_PREFIX/opt/python/libexec/bin:$PATH
 
 # MacPorts
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
@@ -34,12 +36,9 @@ export PATH=$PATH:$HOME/perl5/bin
 # pip binaries
 export PATH=$PATH:$HOME/Library/Python/*/bin
 
-# Python (Homebrew)
-# export PATH=$HOMEBREW_PREFIX/opt/python/libexec/bin:$PATH
-
-# Ruby
+# Ruby gems
 for dir in "$HOME/.local/share/gem/ruby"/*/bin; do
-  [ -d "$dir" ] && PATH="$dir:$PATH"
+  [ -d "$dir" ] && PATH="$PATH:$dir"
 done
 export PATH
 
