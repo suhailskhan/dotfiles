@@ -22,13 +22,15 @@ fi
 # Initialize modules.
 source ${ZIM_HOME}/init.zsh
 
-export HOMEBREW_NO_ENV_HINTS=1
-
 if [[ -n $SSH_CONNECTION ]]; then
 	export EDITOR='nano' VISUAL='nano'
 else
 	export EDITOR='bbedit --wait' VISUAL='bbedit --wait'
 fi
+
+export HOMEBREW_NO_ENV_HINTS=1
+
+export CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR=true
 
 # Run Universal binaries using Rosetta
 alias rosetta='arch -x86_64'
@@ -36,9 +38,6 @@ alias rosetta='arch -x86_64'
 mkcd() {
     mkdir -p "$1" && cd "$1"
 }
-
-# pipx
-eval "$(register-python-argcomplete-3.14 pipx)"
 
 # iTerm Shell Integration
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -57,19 +56,20 @@ eval "$(direnv hook zsh)"
 autoload -Uz +X bashcompinit && bashcompinit
 complete -C '/usr/local/bin/aws_completer' aws
 
-# OpenTofu/Terraform
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# OpenTofu/Terraform etc. completions
 complete -o nospace -C /opt/local/bin/terraform terraform
 complete -o nospace -C /opt/local/bin/tofu tofu
 complete -o nospace -C /opt/local/bin/terragrunt terragrunt
 
-# pyenv
+# pipx completions
+eval "$(register-python-argcomplete-3.14 pipx)"
+
+# pyenv (required for using); typically commented out as pyenv is infrequently used, run ~/.local/bin/pyenv_toggle to quickly comment/uncomment
 # source $HOME/.pyenv_hook
 
-# bun completions
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+# SDKMAN! (required for using)
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-export CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR=true
