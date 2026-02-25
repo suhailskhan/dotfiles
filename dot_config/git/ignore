@@ -28,3 +28,5 @@ Pods/
 # Xcode project metadata
 UserInterfaceState.xcuserstate
 xcuserdata/
+# Claude Code local scope settings
+**/.claude/settings.local.json
