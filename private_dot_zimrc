@@ -33,9 +33,6 @@ zmodule completion
 # Modules that must be initialized last
 #
 
-# Fish-like history search (up arrow) for Zsh.
-# zmodule zsh-users/zsh-history-substring-search
-
 # Git aliases like gcl etc
 zmodule ohmyzsh/ohmyzsh --root plugins/git --use degit
 
