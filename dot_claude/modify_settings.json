@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+
+# Preserves the 'model' field from the existing target file.
+
+import sys, json
+
+try:
+    current = json.load(sys.stdin)
+    model = current.get("model", "opusplan")
+except Exception:
+    model = "opusplan"
+
+settings = {
+    "cleanupPeriodDays": 90,
+    "model": model,
+    "enabledPlugins": {
+        "claude-code-setup@claude-plugins-official": True,
+        "claude-md-management@claude-plugins-official": True
+    },
+}
+print(json.dumps(settings, indent=2))
