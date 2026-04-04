@@ -1,6 +1,7 @@
 window-width = 120
 window-height = 30
 window-padding-x = 5
+adjust-cell-height = 2
 window-theme = system
 macos-titlebar-style = native
 window-save-state = default
