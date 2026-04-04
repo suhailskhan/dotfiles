@@ -29,5 +29,6 @@ Pods/
 UserInterfaceState.xcuserstate
 xcuserdata/
 # Claude Code local scope files
+**/CLAUDE.local.md
 **/.claude/settings.local.json
 **/.claude/agent-memory-local
