@@ -29,7 +29,22 @@ settings = {
         "repo": "sveltejs/ai-tools"
       },
       "autoUpdate": True
+    },
+    "cloudflare": {
+      "source": {
+        "source": "github",
+        "repo": "cloudflare/skills"
+      },
+      "autoUpdate": True
+    },
+    "microsoft-docs-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "microsoftdocs/mcp"
+      },
+      "autoUpdate": True
     }
-  }
+  },
+  "showClearContextOnPlanAccept": True
 }
 print(json.dumps(settings, indent=2))
