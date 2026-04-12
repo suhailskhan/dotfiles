@@ -44,7 +44,6 @@ settings = {
       },
       "autoUpdate": True
     }
-  },
-  "showClearContextOnPlanAccept": True
+  }
 }
 print(json.dumps(settings, indent=2))
